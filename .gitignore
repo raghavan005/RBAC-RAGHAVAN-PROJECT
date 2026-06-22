@@ -1,0 +1,53 @@
+# ── Dependencies ───────────────────────────────────────────────────────────────
+node_modules/
+**/node_modules/
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# ── Next.js ────────────────────────────────────────────────────────────────────
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# ── Backend build output ────────────────────────────────────────────────────────
+/backend/dist/
+
+# ── Environment files ──────────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+# Keep .env.example and .env.sample (safe templates)
+!.env.example
+!.env.sample
+!backend/.env.example
+
+# ── Testing ────────────────────────────────────────────────────────────────────
+/coverage
+/backend/coverage
+
+# ── MongoDB memory server cache (large binaries) ───────────────────────────────
+**/mongodb-memory-server/
+**/.cache/
+
+# ── Logs ───────────────────────────────────────────────────────────────────────
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# ── OS ─────────────────────────────────────────────────────────────────────────
+.DS_Store
+*.pem
+Thumbs.db
+
+# ── Misc ───────────────────────────────────────────────────────────────────────
+.vercel
+/tmp/
