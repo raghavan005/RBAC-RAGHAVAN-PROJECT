@@ -35,6 +35,13 @@ next-env.d.ts
 # ── MongoDB memory server cache (large binaries) ───────────────────────────────
 **/mongodb-memory-server/
 **/.cache/
+**/mongod-*
+**/*.mongod
+**/.mongod*/
+# Additional binary files
+**/*.exe
+**/*.bin
+**/bin/mongod*
 
 # ── Logs ───────────────────────────────────────────────────────────────────────
 npm-debug.log*

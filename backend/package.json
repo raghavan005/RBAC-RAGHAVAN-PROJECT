@@ -4,12 +4,13 @@
   "description": "RBAC Express.js backend API",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "NODE_OPTIONS=\"--max-old-space-size=512\" ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev:memory": "NODE_OPTIONS=\"--max-old-space-size=256\" ts-node-dev --respawn --transpile-only --rs src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "seed": "ts-node src/seed.ts",
-    "test": "jest --runInBand --forceExit",
-    "test:coverage": "jest --runInBand --forceExit --coverage"
+    "test": "NODE_OPTIONS=\"--max-old-space-size=256\" jest --runInBand --forceExit --maxWorkers=1",
+    "test:coverage": "NODE_OPTIONS=\"--max-old-space-size=256\" jest --runInBand --forceExit --coverage --maxWorkers=1"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

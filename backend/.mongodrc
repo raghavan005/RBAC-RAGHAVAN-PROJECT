@@ -1,0 +1,5 @@
+# MongoDB Memory Server Configuration
+# Use system MongoDB if available to avoid downloading large binaries
+export MONGOMS_PREFER_GLOBAL_PATH=1
+export MONGOMS_DOWNLOAD_DIR=${HOME}/.cache/mongodb-binaries
+export MONGOMS_DISABLE_POSTINSTALL=true

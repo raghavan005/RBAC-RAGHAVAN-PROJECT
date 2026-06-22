@@ -179,3 +179,95 @@ npm start
 ```
 
 Set `NEXT_PUBLIC_API_URL` to your deployed backend URL and update `ALLOWED_ORIGINS` in the backend `.env` to include your frontend domain.
+
+## 🚀 Quick Start (Optimized for Low Resources)
+
+### Prerequisites
+- Node.js 18+ and npm
+- MongoDB (local installation or Docker)
+- Git
+
+### Option 1: Automated Setup (Recommended)
+```bash
+# Clone and setup
+git clone <your-repo-url>
+cd RBAC-RAGHAVAN-PROJECT
+
+# Start everything with resource optimization
+npm run start:dev
+```
+
+### Option 2: Manual Setup
+```bash
+# Install dependencies (production mode for less memory usage)
+npm install --omit=dev
+cd backend && npm install --omit=dev && cd ..
+
+# Install dev dependencies only when needed
+npm install  # Frontend dev deps
+cd backend && npm install && cd ..  # Backend dev deps
+
+# Set up environment
+cp backend/.env.example backend/.env
+# Edit backend/.env with your MongoDB URI and secrets
+
+# Start MongoDB (choose one):
+sudo systemctl start mongod  # Linux
+brew services start mongodb-community  # macOS  
+docker run -d -p 27017:27017 --name mongo mongo:7.0  # Docker
+
+# Start services separately with memory limits:
+# Terminal 1 - Backend
+cd backend && npm run dev:memory
+
+# Terminal 2 - Frontend  
+npm run dev:optimized
+```
+
+## 🔧 Performance & Resource Optimization
+
+### System Requirements
+- **Minimum**: 4GB RAM, 2 CPU cores
+- **Recommended**: 8GB RAM, 4 CPU cores
+
+### Memory Optimization Features
+- Node.js memory limits: Frontend (1GB), Backend (512MB), Tests (256MB)
+- MongoDB Memory Server optimized for testing (no large binary downloads)
+- Efficient dependency installation (production vs development modes)
+- Resource-limited Docker containers
+
+### If Your System Still Hangs
+```bash
+# Use even more aggressive memory limits
+NODE_OPTIONS="--max-old-space-size=256" npm run dev  # Frontend
+NODE_OPTIONS="--max-old-space-size=128" npm run dev  # Backend
+
+# Or use Docker with resource limits
+docker-compose -f docker-compose.dev.yml up
+```
+
+### Git Large File Prevention
+The repository is configured to prevent accidentally committing:
+- node_modules directories
+- MongoDB binaries (mongod-*)
+- Build artifacts
+- Cache directories
+
+If you encounter git push errors about large files, run:
+```bash
+# Remove node_modules and reinstall
+rm -rf node_modules backend/node_modules
+npm install --omit=dev
+```
+
+## 🧪 Testing (Memory Optimized)
+
+```bash
+cd backend
+
+# Run tests with memory limits
+npm test  # Already optimized with memory limits
+
+# Run tests with coverage
+npm run test:coverage
+```
