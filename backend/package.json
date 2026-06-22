@@ -13,9 +13,11 @@
     "test:coverage": "NODE_OPTIONS=\"--max-old-space-size=256\" jest --runInBand --forceExit --coverage --maxWorkers=1"
   },
   "dependencies": {
+    "@types/csurf": "^1.11.5",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "csurf": "^1.11.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-rate-limit": "^7.3.1",

@@ -5,6 +5,7 @@
  * Handles:
  *  - Base URL from NEXT_PUBLIC_API_URL
  *  - Attaching Bearer token from localStorage on every request
+ *  - CSRF token handling for security
  *  - Automatic access-token refresh on 401 responses (token rotation)
  *  - Redirecting to /login when both tokens are expired
  */
@@ -26,12 +27,42 @@ const api: AxiosInstance = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-// ── Request interceptor: attach access token ─────────────────────────────────
-api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+// CSRF token storage
+let csrfToken: string | null = null;
+
+// Function to get CSRF token
+async function getCsrfToken(): Promise<string> {
+  if (!csrfToken) {
+    try {
+      const response = await api.get<{ csrfToken: string }>("/csrf-token");
+      csrfToken = response.data.csrfToken;
+    } catch (error) {
+      console.error("Failed to get CSRF token:", error);
+      throw error;
+    }
+  }
+  return csrfToken;
+}
+
+// ── Request interceptor: attach access token and CSRF token ──────────────────
+api.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
   if (typeof window !== "undefined") {
+    // Attach access token
     const token = localStorage.getItem("accessToken");
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    // Attach CSRF token for non-GET requests
+    if (config.method && ['post', 'put', 'patch', 'delete'].includes(config.method.toLowerCase())) {
+      try {
+        const csrf = await getCsrfToken();
+        if (config.headers) {
+          config.headers['X-CSRF-Token'] = csrf;
+        }
+      } catch (error) {
+        console.warn("Could not get CSRF token:", error);
+      }
     }
   }
   return config;
@@ -96,6 +127,7 @@ api.interceptors.response.use(
         if (typeof window !== "undefined") {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("user");
+          csrfToken = null; // Clear CSRF token on logout
           window.location.href = "/login";
         }
         return Promise.reject(refreshError);

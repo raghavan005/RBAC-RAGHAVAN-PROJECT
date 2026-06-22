@@ -21,8 +21,9 @@ function formatUser(user: IUser) {
 export async function registerUser(dto: RegisterDTO) {
   const existing = await User.findOne({ email: dto.email });
   if (existing) {
-    const err = new Error("Email already registered") as Error & { statusCode: number };
-    err.statusCode = 409;
+    // Generic error message to prevent user enumeration
+    const err = new Error("Unable to complete registration. Please try again or contact support.") as Error & { statusCode: number };
+    err.statusCode = 400;
     throw err;
   }
 
