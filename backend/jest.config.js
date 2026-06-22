@@ -11,12 +11,6 @@ module.exports = {
   ],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
-  // Optimize test performance
-  maxWorkers: 1,
-  forceExit: true,
-  // MongoDB Memory Server optimization
-  globalSetup: undefined,
-  globalTeardown: undefined,
   // Set timeout for tests to prevent hanging
   testTimeout: 30000
 };

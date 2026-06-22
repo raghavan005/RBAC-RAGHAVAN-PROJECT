@@ -9,8 +9,9 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "seed": "ts-node src/seed.ts",
-    "test": "NODE_OPTIONS=\"--max-old-space-size=256\" jest --runInBand --forceExit --maxWorkers=1",
-    "test:coverage": "NODE_OPTIONS=\"--max-old-space-size=256\" jest --runInBand --forceExit --coverage --maxWorkers=1"
+    "test": "NODE_OPTIONS=\"--max-old-space-size=512\" jest --runInBand --forceExit",
+    "test:coverage": "NODE_OPTIONS=\"--max-old-space-size=512\" jest --runInBand --forceExit --coverage",
+    "test:security": "NODE_OPTIONS=\"--max-old-space-size=512\" jest --runInBand --forceExit --testPathPattern=security.test.ts"
   },
   "dependencies": {
     "@types/csurf": "^1.11.5",
